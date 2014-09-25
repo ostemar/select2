@@ -1499,6 +1499,11 @@ the specific language governing permissions and limitations under the Apache Lic
         },
 
         // abstract
+        getMinimumInputLength: function(term) {
+            return evaluate(this.opts.minimumInputLength, this.opts.element, term);
+        },
+
+        // abstract
         ensureHighlightVisible: function () {
             var results = this.results, children, index, child, hb, rb, y, more, topOffset;
 
@@ -1728,9 +1733,10 @@ the specific language governing permissions and limitations under the Apache Lic
                 }
             }
 
-            if (search.val().length < opts.minimumInputLength) {
+            var minInputLength = this.getMinimumInputLength(search.val());
+            if (search.val().length < minInputLength) {
                 if (checkFormatter(opts.formatInputTooShort, "formatInputTooShort")) {
-                    render("<li class='select2-no-results'>" + evaluate(opts.formatInputTooShort, opts.element, search.val(), opts.minimumInputLength) + "</li>");
+                    render("<li class='select2-no-results'>" + evaluate(opts.formatInputTooShort, opts.element, search.val(), minInputLength) + "</li>");
                 } else {
                     render("");
                 }
